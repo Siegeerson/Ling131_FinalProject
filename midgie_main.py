@@ -1,17 +1,15 @@
-import argparse
-import os
+"""
+Just making my own to work with my haiku thing
+"""
 import re
 import nltk
-import cmudict
 import haiku
-from syllables import estimate
 from nltk.corpus import PlaintextCorpusReader
 from nltk.corpus import brown as n_brown
 from nltk.corpus import wordnet as wn
 from postag import Tagger
 
 STOPLIST = set(nltk.corpus.stopwords.words())
-cdict = cmudict.dict()
 
 def is_content_word(word):
     """A content word is not on the stoplist and its first character is a letter."""
@@ -27,22 +25,6 @@ def tagger_train(a):
     sents_train = sents[0:int(len(sents) * .9)]
     a.train(sents_train)
 
-def estimator(word):
-    cword = cdict.get(word,None)
-    if cword:
-        cmudict_syllables = 0
-        for phone in cword[0]:
-            if re.match(r"\w*[012]$", phone):
-                cmudict_syllables += 1
-        return cmudict_syllables
-    return estimate(word)
-
-def cat(wordL,tagger):
-    tags = tagger.tag(wordL)
-    return {(word,estimator(word.lower()),tag)
-        for word,tag in tags if is_content_word(word) }
-    # return {(word,haiku.estimate_syll(word), tag)
-    #         for word, tag in tags if is_content_word(word) }
 
 def basic_construtor(p_words):
     out = []
@@ -67,6 +49,6 @@ def basic_construtor(p_words):
 if __name__ == "__main__":
     tagger = Tagger()
     tagger_train(tagger)
-    cs = cat(n_brown.words(categories="news"),tagger)
-    print(cs)
-    basic_construtor(cs)
+    tags = tagger.tag(n_brown.words(categories="news"))
+    print(tags)
+    
