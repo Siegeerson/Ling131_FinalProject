@@ -1,5 +1,6 @@
-import argparse
-import os
+# import argparse
+# import os
+# Didn't seem to actually need the imports above
 import re
 import nltk
 import cmudict
@@ -39,10 +40,18 @@ def estimator(word):
 
 def cat(wordL,tagger):
     tags = tagger.tag(wordL)
+<<<<<<< HEAD
     return {(word,estimator(word.lower()),tag)
         for word,tag in tags if is_content_word(word) }
     # return {(word,haiku.estimate_syll(word), tag)
     #         for word, tag in tags if is_content_word(word) }
+=======
+    print("tags: {}".format(tags))
+    # return {(word,estimator(word.lower()),tag)
+    #     for word,tag in tags if is_content_word(word) }
+    return {(word,haiku.estimate_syll(word), tag)
+            for word, tag in tags if is_content_word(word) }
+>>>>>>> c32dee15a96c10bccdc1dcd8a28b4ca47e60b4c5
 
 def basic_construtor(p_words):
     out = []
