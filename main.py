@@ -1,15 +1,19 @@
-import argparse
-import os
+# import argparse
+# import os
+# Didn't seem to actually need the imports above
 import re
 import nltk
 import cmudict
+import haiku
 from syllables import estimate
 from nltk.corpus import PlaintextCorpusReader
 from nltk.corpus import brown as n_brown
 from nltk.corpus import wordnet as wn
 from postag import Tagger
+
 STOPLIST = set(nltk.corpus.stopwords.words())
 cdict = cmudict.dict()
+
 def is_content_word(word):
     """A content word is not on the stoplist and its first character is a letter."""
     return word.lower() not in STOPLIST and word[0].isalpha()
@@ -36,8 +40,11 @@ def estimator(word):
 
 def cat(wordL,tagger):
     tags = tagger.tag(wordL)
-    return {(word,estimator(word.lower()),tag)
-        for word,tag in tags if is_content_word(word) }
+    print("tags: {}".format(tags))
+    # return {(word,estimator(word.lower()),tag)
+    #     for word,tag in tags if is_content_word(word) }
+    return {(word,haiku.estimate_syll(word), tag)
+            for word, tag in tags if is_content_word(word) }
 
 def basic_construtor(p_words):
     out = []
