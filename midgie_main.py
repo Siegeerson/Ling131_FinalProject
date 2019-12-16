@@ -25,27 +25,6 @@ def tagger_train(a):
     sents_train = sents[0:int(len(sents) * .9)]
     a.train(sents_train)
 
-
-# def basic_construtor(p_words):
-#     out = []
-#     for x in [5,7,5]:
-#         line1 = []
-#         line1s = 0
-#         syl = x
-#         v_used = False
-#         while line1s != syl:
-#             c_word = p_words.pop()
-#             if line1s + c_word[1] <= syl and (c_word[2] == 'VERB') != v_used:
-#                 if c_word[2] == 'VERB':
-#                     v_used = True
-#                 line1.append(c_word[0])
-#                 line1s +=c_word[1]
-#             else:
-#                 p_words.add(c_word)
-#         print(*line1)
-#         out.append(line1)
-
-
 if __name__ == "__main__":
     tagger = Tagger()
     tagger_train(tagger)

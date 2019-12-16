@@ -40,13 +40,11 @@ def estimate_syll(word):
     #Checks the special cases of the word ending in 'es' or in 'ed'
     # checks previous letter wasn't vowel because if it was, the 'es' wouldn't have been assigned a syllable
     if len(wordL) > 2 and wordL[-2:] == 'es':
-        # if tag == 'VERB':
-        #     syll -= 1
         if (wordL[-3] not in VOWELS) and (wordL[-3] not in ['x', 'c', 's', 'z', 'h', 'g']):
             syll -= 1
 
     if len(wordL) > 2 and wordL[-2:] == 'ed':
-        if (wordL[-3] not in VOWELS) and (wordL[-3] in ['n', 'm', 'k', 'g','s', 'z', 'h']):
+        if (wordL[-3] not in VOWELS) and (wordL[-3] in ['n', 'm', 'k', 'g','s', 'z', 'h', 'w']):
             syll -= 1
 
     return syll
@@ -61,14 +59,35 @@ def is_syll(word, i, syll):
     """
     cur = word[i]
     if cur in VOWELS:
-        if not(cur == 'u' and word[i-1] == 'q'):
-            if not(cur == 'e' and i + 1 == len(word)):
-                if not(i > 0 and is_syll(word, i-1, syll)):
+        if not is_qu(word, i):
+            if not is_silent_e(word, i, syll):
+                if not prev_is_syll(word, i, syll):
                     return True
-            elif syll == 0 and (cur == 'e' and i + 1 == len(word)):
-                return True
 
     return False
+
+def prev_is_syll(word, i, syll):
+    """
+    checks if the previous letter was a syllable
+    also checks if the one before the previous one was, in case there are more than 3 vowels in a row.
+    """
+    if syll > 0 and i > 0:
+        if word[i-1] in VOWELS and not is_qu(word, i-1):
+            return True
+    return False
+
+def is_silent_e(word, i, syll):
+    """
+    checks if the given vowel is a wordfinal "e" which has no syllable.
+    (if it is wordfinal 'e' but no other syllable, will give it a syllable)
+    """
+    return (word[i] == 'e' and i + 1 == len(word)) and syll != 0
+
+def is_qu(word, i):
+    """
+    checks if the given vowel is a 'u' after a 'q', because that should have a vowel.
+    """
+    return i > 0 and (word[i] == 'u' and word[i-1] == 'q')
 
 def arrange_haiku(words_tags, num_haiku = 1):
     """
@@ -98,10 +117,7 @@ def arrange_haiku(words_tags, num_haiku = 1):
                 nextword = random.choice(options)
                 line.append(nextword[0])
                 linesyl += nextword[2]
-                # print("line {}: {}".format(x, nextword))
                 cur = new_cur
             haiku += " ".join(line) + "\n"
         haikus.append(haiku)
     return haikus
-
-# print(estimate_syll('eyes'))
