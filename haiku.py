@@ -4,8 +4,11 @@ Our haiku generator
 
 import random
 
+# Vowels, used to identify syllables
 VOWELS = ['a','e','i','o','u','y']
+# Parts of Speach which our haiku items can take
 TAGS = ['ADJ', 'ADV', 'DET', 'NOUN', 'NN', 'NUM', 'VERB', 'ADP', 'PRT', 'CONJ']
+# Transitions to make as close to a cohesive thought as possible
 SENTENCE = {
             'S'     : ['DET', 'NUM', 'ADJ', 'NOUN', 'NN'],
             'DET'   : ['NUM', 'ADJ', 'NOUN', 'NN'],
@@ -68,8 +71,7 @@ def is_syll(word, i, syll):
 
 def prev_is_syll(word, i, syll):
     """
-    checks if the previous letter was a syllable
-    also checks if the one before the previous one was, in case there are more than 3 vowels in a row.
+    checks if the current letter is a second (or third) vowel in a single syllable
     """
     if syll > 0 and i > 0:
         if word[i-1] in VOWELS and not is_qu(word, i-1):
@@ -101,15 +103,19 @@ def arrange_haiku(words_tags, num_haiku = 1):
     info = [entry for entry in info if entry[2] > 0]
     haikus = []
     for i in range(0, num_haiku):
+        # each haiku starts with the start symbol
         cur = 'S'
         haiku = ""
+        # first line has 5 syllables, second has 7, third has 5
         for x in [5,7,5]:
             line = []
             linesyl = 0
+            # while there need to be more syllables in the line
             while linesyl < x:
                 types = SENTENCE[cur][:]
                 options = []
                 new_cur = ""
+                # until you have some words to pick from which won't overload the syllable needs and are of a compatible next POS
                 while len(options) < 1 and len(types) > 0:
                     new_cur = random.choice(types)
                     options = [entry for entry in info if entry[1] == new_cur if entry[2] <= (x - linesyl)]

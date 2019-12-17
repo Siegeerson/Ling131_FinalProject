@@ -26,9 +26,14 @@ def tagger_train(a):
     a.train(sents_train)
 
 if __name__ == "__main__":
+    # creates and trains tagger
     tagger = Tagger()
     tagger_train(tagger)
+
+    # applies tags to given word set (default is Brown "News")
     tags = tagger.tag(n_brown.words(categories="news"))
+
+    # creates haikus usuing the created tags, default number is 1 if no number is specified.
     haiku = haiku.arrange_haiku(tags, 5)
     for h in haiku:
         print(h)
