@@ -27,7 +27,7 @@ words and optionally a number of haikus to generate.
 
             :param words_tags: tuple with (word, tag)
             :param num_haiku: int number of haikus to generate; default is 1
-            :return: a haiku!
+            :return: [haiku]
             """
 ```
 

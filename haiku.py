@@ -102,7 +102,7 @@ def arrange_haiku(words_tags, num_haiku=1):
 
     :param words_tags: tuple with (word, tag)
     :param num_haiku: int number of haikus to generate; default is 1
-    :return: a haiku!
+    :return: [haiku]
     """
     # (the, 'DET', 1) for an example word entry
     info = [(word, tag, estimate_syll(word)) for word, tag in words_tags if tag in TAGS]
