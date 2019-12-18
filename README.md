@@ -19,8 +19,17 @@ where the first line has 5 syllables, the second 7 and the third 5.
 To generate haikus run the main.py file, this will print out 4 haikus generated using words
 from the brown news corpus. For other behavior consult the optional arguments that can be passed in the command line
 
-The haiku.py module can be used without main.py, it simply requires a list of
-tuples of (word, tag) be passed in where the words are tagged with the NLTK universal tagset
+The haiku.py module can be used without main.py, simply use the function arrange_haiku which expects a list of tagged
+words and optionally a number of haikus to generate.
+```python
+        def arrange_haiku(words_tags, num_haiku=1):
+            """
+
+            :param words_tags: tuple with (word, tag)
+            :param num_haiku: int number of haikus to generate; default is 1
+            :return: a haiku!
+            """
+```
 
 ### Optional Arguments for main.py
 * --custom-text
