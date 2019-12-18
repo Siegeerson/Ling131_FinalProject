@@ -4,7 +4,7 @@
 ## In main:
 Trains a part of speech tagger on the Brown News Corpus.
 Uses that tagger to tag the desired input.
-Then uses the input and tagger to create a haiku with (extremely) loosely accurate syntax
+Then uses the input and tagger to create a haiku with loosely accurate syntax
 
 ## In haiku:
 estimates the number of syllables in a word using vowel information and some (very) simple phonology
